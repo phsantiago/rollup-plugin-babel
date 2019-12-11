@@ -43,14 +43,6 @@ export default function createPreflightCheck() {
 				check = babel.transformSync(inputCode, addBabelPlugin(options, fallbackClassTransform)).code;
 			}
 
-			if (
-				!~check.indexOf('export default') &&
-				!~check.indexOf('export default Foo') &&
-				!~check.indexOf('export { Foo as default }')
-			) {
-				ctx.error(MODULE_ERROR);
-			}
-
 			if (check.match(/\/helpers\/(esm\/)?inherits/)) helpers = RUNTIME;
 			else if (~check.indexOf('function _inherits')) helpers = INLINE;
 			else if (~check.indexOf('babelHelpers')) helpers = EXTERNAL;
